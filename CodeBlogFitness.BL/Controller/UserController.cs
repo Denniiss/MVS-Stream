@@ -8,20 +8,21 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace CodeBlogFitness.BL.Controller
 {
     /// <summary>
-    /// Контроллер пользователя
+    /// Контроллер пользователя.
     /// </summary>
-   public class UserController
+    public class UserController
     {
         /// <summary>
-        /// Список пользователей
+        /// Пользователь приложения.
         /// </summary>
         public List<User> Users { get; }
 
         public User CurrentUser { get; }
 
         public bool IsNewUser { get; } = false;
+
         /// <summary>
-        /// Создание нового контроллера пользователя
+        /// Создание нового контроллера пользователя.
         /// </summary>
         /// <param name="user"></param>
         public UserController(string userName)
@@ -45,7 +46,7 @@ namespace CodeBlogFitness.BL.Controller
         }
 
         /// <summary>
-        /// Получить сохраненный список пользователей
+        /// Получить сохраненный список пользователей.
         /// </summary>
         /// <returns></returns>
         private List<User> GetUsersData()
@@ -54,7 +55,7 @@ namespace CodeBlogFitness.BL.Controller
 
             using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
             {
-                if (formatter.Deserialize(fs) is List<User> users)
+                if (fs.Length > 0 && formatter.Deserialize(fs) is List<User> users)
                 {
                     return users;
                 }
@@ -65,9 +66,10 @@ namespace CodeBlogFitness.BL.Controller
             }
         }
 
+
         public void SetNewUserData(string genderName, DateTime birthDate, double weight = 1, double height = 1)
         {
-            //Проверка
+            // Проверка
 
             CurrentUser.Gender = new Gender(genderName);
             CurrentUser.BirthDate = birthDate;
@@ -77,7 +79,7 @@ namespace CodeBlogFitness.BL.Controller
         }
 
         /// <summary>
-        /// Сохранить данные пользователя
+        /// Сохранить данные пользователя.
         /// </summary>
         public void Save()
         {
@@ -88,6 +90,5 @@ namespace CodeBlogFitness.BL.Controller
                 formatter.Serialize(fs, Users);
             }
         }
-        
     }
 }
